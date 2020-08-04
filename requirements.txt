@@ -1,0 +1,7 @@
+django==3.0
+pandas 
+networkx
+pyyaml
+pygraphviz
+psycopg2-binary
+sqlalchemy
