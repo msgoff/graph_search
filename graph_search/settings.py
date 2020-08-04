@@ -78,11 +78,11 @@ WSGI_APPLICATION = "graph_search.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "HOST": "127.0.0.1",
-        "PORT": 5432,
-        "NAME": "graph_search",
-        "USER": "test",
-        "PASSWORD": "password",
+        "HOST": config["db_host"],
+        "PORT": config["db_port"],
+        "NAME": config["db_name"],
+        "USER": config["db_user"],
+        "PASSWORD": config["db_password"],
     }
 }
 
