@@ -133,7 +133,7 @@ dmypy.json
 
 # pytype static type analyzer
 .pytype/
-
+main/migrations/0*
 # Cython debug symbols
 cython_debug/
 static/vivagraph.js

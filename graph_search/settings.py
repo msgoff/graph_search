@@ -69,6 +69,13 @@ TEMPLATES = [
     },
 ]
 
+
+PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
+TEMPLATE_DIRS = (
+    PROJECT_PATH + 'main/templates/',
+)
+
+
 WSGI_APPLICATION = "graph_search.wsgi.application"
 
 
