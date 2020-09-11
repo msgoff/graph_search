@@ -18,11 +18,19 @@ RUN apt-get update && \
                build-essential  \
                libgraphviz-dev \
                graphviz \
+	       sudo \
+	       curl \
+	       git \
     && rm -rf /var/lib/apt/lists/*
 
 #install nodejs for ngraph
-RUN curl -sL https://deb.nodesource.com/setup_12.x | -E bash -
-RUN apt install nodejs
+# install from nodesource using apt-get
+# https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-an-ubuntu-14-04-server
+RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo bash - && \
+apt-get install -yq nodejs build-essential
+
+# fix npm - not the latest version installed by apt-get
+RUN npm install -g npm
 RUN npm install -g n
 RUN n 11.15.0
 
