@@ -21,8 +21,7 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 #install nodejs for ngraph
-RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-RUN sudo apt update
+RUN curl -sL https://deb.nodesource.com/setup_12.x | -E bash -
 RUN apt install nodejs
 RUN npm install -g n
 RUN n 11.15.0
