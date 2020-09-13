@@ -131,12 +131,9 @@ dmypy.json
 *.swp
 # Pyre type checker
 .pyre/
-static/
 # pytype static type analyzer
 .pytype/
 main/migrations/0*
 # Cython debug symbols
 cython_debug/
-static/vivagraph.js
-static/vivagraph.min.js
 VivaGraphJS/

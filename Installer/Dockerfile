@@ -33,18 +33,20 @@ apt-get install -yq nodejs build-essential
 RUN npm install -g npm
 RUN npm install -g n
 RUN n 11.15.0
-
+RUN apt install gulp -y
 #gulp for ngraph
-RUN npm install --global gulp-cli
+#RUN npm install --global gulp-cli
 
+
+WORKDIR /opt
 RUN git clone https://github.com/anvaka/VivaGraphJS.git
 RUN cd VivaGraphJS
-RUN npm install
-RUN gulp release
-RUN pwd
-RUN mkdir ../../static/
-RUN cp dist/vivagraph.min.js ../../static/
-RUN pip3 install -r requirements.txt
+#RUN npm install
+#RUN gulp release
+#RUN pwd
+#RUN mkdir ../../static/
+#RUN cp dist/vivagraph.min.js ../../static/
+#RUN pip3 install -r requirements.txt
 
 
 # https://docs.docker.com/engine/reference/builder/#copy
