@@ -26,8 +26,6 @@ RUN apt-get update && \
                sudo \    
 && rm -rf /var/lib/apt/lists/*
 
-RUN sudo -u postgres -H -- psql -c "CREATE USER test PASSWORD 'password';"
-RUN sudo -u postgres -H -- psql -c "CREATE DATABASE graph_search with OWNER test;"
 #install nodejs for ngraph
 # install from nodesource using apt-get
 # https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-an-ubuntu-14-04-server
