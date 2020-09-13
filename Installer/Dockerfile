@@ -21,6 +21,7 @@ RUN apt-get update && \
 	       sudo \
 	       curl \
 	       git \
+               nginx \
     && rm -rf /var/lib/apt/lists/*
 
 #install nodejs for ngraph
@@ -30,10 +31,10 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo bash - && \
 apt-get install -yq nodejs build-essential
 
 # fix npm - not the latest version installed by apt-get
-RUN npm install -g npm
-RUN npm install -g n
-RUN n 11.15.0
-RUN apt install gulp -y
+#RUN npm install -g npm
+#RUN npm install -g n
+#RUN n 11.15.0
+#RUN apt install gulp -y
 #gulp for ngraph
 #RUN npm install --global gulp-cli
 
@@ -55,4 +56,6 @@ COPY requirements.txt /tmp
 RUN pip3 install -r /tmp/requirements.txt
 
 WORKDIR /opt
+RUN git clone https://github.com/msgoff/graph_search
+
 #COPY dot_file_from_df.py ast_test.py /opt/ 
