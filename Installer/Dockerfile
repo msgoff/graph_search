@@ -24,6 +24,7 @@ RUN apt-get update && \
                nginx \
                postgresql \
                sudo \    
+               screen \
 && rm -rf /var/lib/apt/lists/*
 
 #install nodejs for ngraph
