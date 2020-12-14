@@ -3,7 +3,7 @@ sudo service postgresql start
 cd ../
 python3 manage.py makemigrations
 python3 manage.py migrate
-
+cp -r static ../
 sudo cp /opt/graph_search/Installer/configs/nginx.conf /etc/nginx/nginx.conf
 sudo cp /opt/graph_search/Installer/configs/nginx_graph_search.conf /etc/nginx/sites-enabled/default
 sudo service nginx start
