@@ -1,0 +1,104 @@
+<head>
+  <style> body { margin: 0; } </style>
+
+  <script src="//unpkg.com/dat.gui"></script>
+  <script src="d3-octree.min.js"></script>
+  <script src="d3-force-3d.min.js"></script>
+
+  <script src="3d-force-graph.min.js"></script>
+  <!--<script src="../../dist/3d-force-graph.js"></script>-->
+</head>
+
+<body>
+	<!--input id="text_search" type="text" onkeypress="clickPress(event)"-->
+
+  <div id="graph"></div>
+
+  <script>
+	  const initData = {
+			                nodes: [{"id":0} ],
+			                links: []
+			            };
+	          
+	          const elem = document.getElementById("graph");
+    const NODE_REL_SIZE = 1;
+const Graph = ForceGraph3D()(elem)
+      .dagMode('td')
+      .dagLevelDistance(100)
+      .backgroundColor('#101020')
+      .linkColor(() => 'rgba(255,255,255,0.3)')
+      .nodeRelSize(NODE_REL_SIZE)
+      .nodeId('path')
+      .nodeVal('size')
+      .nodeLabel('path')
+      .nodeAutoColorBy('module')
+      .nodeOpacity(0.9)
+      .d3Force('collision', d3.forceCollide(node => Math.cbrt(node.size) * NODE_REL_SIZE))
+      .d3VelocityDecay(0.3);
+
+
+	  // controls
+	 var ColorController = dat.controllers.ColorController;
+	  const controls = { 'root_vertex':'fff','folders_include_regex':' ','folder_filter_regex':' ','files_include_regex':'','files_filter_regex':'','file_features_include':'','message':"sympy",'border':false,'repel intensity':-20,'width':100,'Node Opacity':.9,'DAG Orientation': 'td','Level Distance':100,'color' : '#ffae23'};
+    const gui = new dat.GUI();
+	gui.width =300;
+	console.log(gui.width);
+	gui.add(controls, 'DAG Orientation', ['td', 'bu', 'lr', 'rl', 'zout', 'zin', 'radialout', 'radialin', null])
+    .onChange(orientation => graph && graph.dagMode(orientation));
+	  gui.addColor(controls,'color').onChange(colorValue => graph && graph.backgroundColor(colorValue));
+	  gui.add(controls,'Level Distance').min(0).max(500).step(10)
+		  .onChange(length => graph && graph.dagLevelDistance(length));
+	  gui.add(controls,'Node Opacity').min(0).max(1).step(.01)
+		  .onChange(length => graph && graph.nodeOpacity(length));
+	  gui.add(controls,'repel intensity').min(-100).max(100).step(5)
+		  .onChange(length => graph && graph.d3Force('charge').strength(length));
+	  gui.add(controls,'border').onChange(setValue);
+	  gui.add(controls,'message').onChange(setValue);
+	  gui.add(controls,'root_vertex').onChange(setValue);
+
+	function setValue() {
+			    if(controls.border) {
+				console.log(5);	        
+				      }
+			    else {
+					     data_f('sympy'); 
+				      }
+		  }
+
+	  function data_f(keyword){ 
+				    var url = 'http://localhost/graph_api?path=like.'+keyword+'*';
+				    fetch(url)
+      .then(r => r.json())
+      .then(data => {
+			console.log(Graph.graphData());
+      let  { nodes, links } = Graph.graphData();
+        data.forEach(({ size, path }) => {
+          const levels = path.split('/'),
+            level = levels.length - 1,
+            module = level > 0 ? levels[1] : null,
+            leaf = levels.pop(),
+            parent = levels.join('/');
+	 const node = {
+            path,
+            leaf,
+            module,
+            size: +size || 20,
+            level
+		    };
+
+          nodes.push(node);
+
+          if (parent) {
+            links.push({source: parent, target: path, targetNode: node});
+          }
+				    });
+
+		  
+		});
+			    Graph.graphData();
+			    Graph.refresh();
+		    }
+
+
+  </script>
+</body>

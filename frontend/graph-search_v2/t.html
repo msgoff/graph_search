@@ -1,0 +1,63 @@
+<script src="//unpkg.com/dat.gui"></script>
+  <script src="d3-octree.min.js"></script>
+
+<script src="d3-force-3d.min.js"></script>
+<script src="3d-force-graph.min.js"></script>
+
+<div id="3d-graph"></div>
+		<script>
+var Graph;
+const _graphdata = {
+  nodes: [ {id:1, name:'node1', color:"#ff0000"}, {id:2, name:'node2', color:"#ff0000"}, {id:3, name:'node3', color:"#ff0000"} ],
+  links: []
+};
+
+const elem = document.getElementById('3d-graph');
+Graph = ForceGraph3D()
+(elem)
+  .graphData(_graphdata)
+  .forceEngine("d3")
+  .showNavInfo(false)
+  .enablePointerInteraction(true)
+  .enableNodeDrag(true)
+  .nodeLabel('name')
+  .nodeColor('color')
+  .onNodeHover(node => elem.style.cursor = node ? 'pointer' : null)
+  .nodeThreeObject(node => {
+  return modNode(node);
+})
+  .onNodeClick(node => {
+  // Aim at node from outside it
+  const distance = 150;
+  const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+  Graph.cameraPosition(
+    { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, // new position
+    node, // lookAt ({ x, y, z })
+    3000  // ms transition duration
+  );
+});
+
+setInterval(doUpdate, 3000);
+
+function modNode(n) {
+  var sphere = new THREE.SphereGeometry(20);
+  var lambert = new THREE.MeshLambertMaterial({ color: n.color, transparent: true, opacity: 0.75 });
+  var mesh = new THREE.Mesh(sphere, lambert);
+
+  var group = new THREE.Group();
+  group.add(mesh);
+  
+  return group;
+}
+
+function doUpdate() {
+  const { nodes, links } = Graph.graphData();
+  var fnd = 0;
+  for (var i = 0; i < nodes.length; i++) {
+    nodes[i].color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+  }
+  
+  Graph.nodeThreeObject(node => {
+    return modNode(node);
+  });  
+}</script>
