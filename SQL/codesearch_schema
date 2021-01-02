@@ -1,0 +1,56 @@
+#work in progress
+node_properties={
+    _type: [folder,file],
+    _file: 
+        {
+        checksums,int[]
+        date_created: unix timestamp:text,
+        modified_timestamps: bigint[],
+        imports: int[],
+        class_definitions:int[],
+        classes_used_in_other_files:int[],
+        similar_classes:int[]
+        function_definitions:int[],
+        functions_used_in_other_files:int[],
+        similar_functions:int[],
+        languange_keywords:int[],
+        class_instantiations:int[],
+        function_calls:int[],
+        variables:int[],
+        constants:int[],
+        comments:int[],
+        dead_code:int[],
+        identical_files:int[],
+        similar_files:int[],
+        file_seen_in_commits:int[],
+        number_of_issues_related_to_file:int[],
+        }
+}
+
+create table file_checksums (id bigserial primary key, sha1 varchar(41),filepath text, unique (sha1, filepath));
+
+
+create table date_file_created (id bigint , ts timestamp,commit_sha1 varchar(41));
+create table date_file_deleted (id bigint , ts timestamp, commit_sha1 varchar(41));
+
+
+
+create table file_modified_timestamps (id bigint, modified_timestamps timestamp[]);
+create table file_imports  (id bigint, name text);
+create table class_definitions (id bigint, name text);
+create table classes_used_in_other_files:(id bigint,name text);
+create table similar_classes:(id bigint,name text,similar_class text,similarity score);
+create table function_definitions:(id bigint, name text);
+create table functions_used_in_other_files (id bigint, int[]);
+create table similar_functions (id bigint,int[]);
+create table languange_keywords (id bigint,name text,line_no int,col_offset int);
+create table class_instantiations (id bigint,name text,line_no int,col_offset int);
+create table function_calls (id bigint,name text,line_no int,col_offset int);
+create table variables (id bigint,name text);
+create table constants (id bigint,name text);
+create table comments (id bigint, name text);
+create table dead_code (id bigint,name text);
+create table identical_files (id bigint, name text);
+create table similar_files (id bigint,name text, similarity_score float,algorithm text);
+create table file_seen_in_commits (id bigint, commit varchar(41)[]);
+create table number_of_issues_related_to_file (id bigint,count int,issue_id varchar(41)[]);
