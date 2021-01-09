@@ -6,5 +6,7 @@ api_install:
 	wget https://github.com/PostgREST/postgrest/releases/download/v7.0.1/postgrest-v7.0.1-linux-x64-static.tar.xz
 	tar -xJf postgrest-v7.0.1-linux-x64-static.tar.xz
 	sudo cp postgrest /usr/local/bin/
-
+	sudo cp configs/api.conf /usr/local/bin/
+db_init:
+	@/bin/bash db_init.sh
 

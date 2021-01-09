@@ -1,3 +1,5 @@
 sudo -u postgres -H -- psql -c "CREATE USER test PASSWORD 'password';"
 sudo -u postgres -H -- psql -c "CREATE DATABASE graph_search with OWNER test;"
-
+sudo -u postgres -H -- psql -c "create role web_anon nologin;"
+sudo -u postgres -H -- psql -c "create role authenticator noinherit login password 'mysecretpassword';"
+sudo -u postgres -H -- psql -c "grant web_anon to authenticator;"
